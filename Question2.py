@@ -2,11 +2,13 @@ import streamlit as st
 import fitz  # PyMuPDF
 import docx
 import re
-from langchain_ollama import ChatOllama
+from langchain_openai import ChatOpenAI 
 
-# Initialize LLM (open-source)
-llm = ChatOllama(
-    model="llama3.2:3B",
+# Initialize LLM (hosted, works on Streamlit Cloud)
+# Make sure you set OPENAI_API_KEY in Streamlit "Secrets"
+llm = ChatOpenAI(
+    model="gpt-4.1-mini",          # you can change to gpt-4.1, etc.
+    api_key=st.secrets["OPENAI_API_KEY"],
     temperature=0
 )
 
@@ -121,7 +123,6 @@ if st.button("Submit"):
             allowed_abbrs = set(candidates.keys())
 
             # Build a simple list for the LLM to clean up
-            # e.g. "WDC: weighted degree centrality"
             candidate_block = "\n".join(
                 f"{abbr}: {term}" for abbr, term in candidates.items()
             )
@@ -175,3 +176,4 @@ Additional user instructions (optional from the user):
                     for abbr, term in sorted(final_index.items(), key=lambda kv: kv[0])
                 ]
                 st.text("\n".join(lines))
+
