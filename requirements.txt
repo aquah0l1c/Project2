@@ -1,4 +1,6 @@
 streamlit
-pymupdf
+PyMuPDF
 python-docx
-langchain-ollama
+langchain
+langchain-openai
+openai
